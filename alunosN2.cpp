@@ -43,18 +43,94 @@ void excluirAluno(vector<string>& nomes, vector<float>& nota1, vector<float>& no
     
 }
 
-void incluirNotas(vector<float>& nota1, vector<float>& nota2) {
-    float notas;
-            
-    cout << "Favor informar a nota1 ";
-    cin >> notas;
-    nota1.push_back(notas);
+void imprimir(vector<string>& nomes) {
+    int i = 1;
+    for(auto it=nomes.begin(); it!=nomes.end(); it++, i++) {
+        
+        if(!nomes.empty()){
 
-    cout << "Favor informar a nota2 ";
-    cin >> notas;
-    nota2.push_back(notas);
+            cout << "Aluno " << i << " - " <<  *it << endl;
+        }else {
+            cout << "Dados não encontrados em Nomes" << endl;
+        }
+    }
+    cout << "-------------------------------------\n";
+
+}
+
+void incluirNotas(vector<float>& nota1, vector<float>& nota2) {
+    float n1, n2;
+    int indice = 0;
+
+
+    cout << "Informe o número do aluno: ";
+    cin >> indice;
+
+   
+
+    indice -= 1;
+
+    
+       
+    cout << "Favor informar a nota1: ";
+    cin >> n1;
+    nota1.insert(nota1.begin()+indice,n1);
+
+    cout << "Favor informar a nota2: ";
+    cin >> n2;
+    nota2.insert(nota2.begin()+indice,n2);           
+
+       
+    
     
 }
+
+void alterarNotas(vector<string>& nomes, vector<float>& nota1, vector<float>& nota2) {
+    string nome;
+    int i = 0, opcao;
+    float novaNota1, novaNota2;
+
+    cout << "Favor o nome do aluno: ";
+    getline(cin >> ws, nome);
+
+    for(auto it=nomes.begin(); it!=nomes.end(); it++, i++) {
+        if(*it == nome) {
+            cout << "Qual a nota que deseja alterar(1 ou 2)? ";
+            cin >> opcao;
+
+
+            switch (opcao)
+            {
+            case 1:
+                
+                    cout << "Digite o novo valor da Nota1: ";
+                    cin >> novaNota1;
+                    nota1[i] = novaNota1;
+
+            
+                break;
+            case 2:
+                
+                    cout << "Digite o novo valor da Nota2: ";
+                    cin >> novaNota2;
+                    nota2[i] = novaNota2;
+
+                
+                
+                break;
+            
+            default:
+                break;
+            }
+        }else {
+            cout << "Nome não encontrado" << endl;
+        }
+    }
+
+
+}
+
+
 
 
 void incluirAluno(vector<string>& nomes, vector<float>& nota1, vector<float>& nota2) {
@@ -72,34 +148,22 @@ void incluirAluno(vector<string>& nomes, vector<float>& nota1, vector<float>& no
         cout << "Informe o nome do " << i << " aluno" << endl;
         getline(cin >> ws, nome);
         nomes.push_back(nome);    
-        incluirNotas(nota1, nota2);
+        
     }
     
+    bubbleSort(nomes);
 
-    cout << "Deseja exluir algum aluno(s/n) ?";
+    cout << "Deseja incluir Notas(s/n) ?";
     cin >> opcao;
     if(opcao == 's' || opcao == 'S') {
-        excluirAluno(nomes, nota1, nota2);
+        imprimir(nomes);
+        incluirNotas(nota1, nota2);
     }
 
     
 }
 
 
-void imprimir(vector<string>& nomes) {
-    int i = 1;
-    for(auto it=nomes.begin(); it!=nomes.end(); it++, i++) {
-        
-        if(!nomes.empty()){
-
-            cout << "Aluno " << i << " - " <<  *it << endl;
-        }else {
-            cout << "Dados não encontrados em Nomes" << endl;
-        }
-    }
-    cout << "-------------------------------------\n";
-
-}
 
 void imprimirNotas(vector<float>& nota1, vector<float> nota2) {
     int i = 1;
@@ -114,7 +178,7 @@ void imprimirNotas(vector<float>& nota1, vector<float> nota2) {
         }
     }
     cout << "-------------------------------------\n";
-    for(auto it=nota1.begin(); it!=nota1.end(); it++, j++) {
+    for(auto it=nota2.begin(); it!=nota2.end(); it++, j++) {
         if(!nota1.empty() || !nota2.empty()){
 
             cout << "Nota2 - Aluno  " << j <<  ": " << fixed << setprecision(2) << *it << endl;
@@ -147,7 +211,9 @@ while(prosseguir) {
     
     cout << "1 - Deseja INCLUIR alunos? \n";
     cout << "2 - Deseja EXCLUIR alunos? \n";
-    cout << "3 - Imprimir \n";
+    cout << "3 - Incluir NOTAS? \n";
+    cout << "4 - Alterar NOTAS? \n";
+    cout << "5 - Imprimir \n";
     cout << "0 - Sair \n";
     cin >> opcao;
     
@@ -161,6 +227,13 @@ while(prosseguir) {
         excluirAluno(nomes, nota1, nota2);
         break;
     case 3:
+        imprimir(nomes);
+        incluirNotas(nota1,nota2);
+        break;
+    case 4:
+        alterarNotas(nomes, nota1, nota2);
+        break;
+    case 5:
         imprimir(nomes);
         imprimirNotas(nota1, nota2);
         break;
